@@ -53,19 +53,31 @@ const sortFunction = (criteria, type = 'asc') => {
 //populate the table on page load
 renderTable(employees);
 
+var val = 0;
+// sort table columns in ascending or descending order, like a "switch"
+const sortBy = (type) => {
+    if (val < 1) {
+        val++;
+        renderTable(employees.sort(sortFunction(type, 'asc')));
+    } else if (val = 1) {
+        val = 0;
+        renderTable(employees.sort(sortFunction(type, 'desc')));
+    }
+}
+
 // Sort table by criteria
-$("#firstname").on("click", () => {
-    renderTable(employees.sort(sortFunction('first', 'asc')));
+$("#firstname").on("click", (event) => {
+   sortBy("first");
 });
 
 $("#lastname").on("click", () => {
-    renderTable(employees.sort(sortFunction('last', 'asc')));
+    sortBy("last");
 });
 
 $("#id").on("click", () => {
-    renderTable(employees.sort(sortFunction('id', 'asc')));
+    sortBy("id");
 });
 
 $("#position").on("click", () => {
-    renderTable(employees.sort(sortFunction('position', 'asc')));
+    sortBy("position");
 });
