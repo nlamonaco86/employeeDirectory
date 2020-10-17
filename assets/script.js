@@ -33,14 +33,14 @@ const exercises = [
         primary: "Front Delt",
         secondary: "Tricep",
         auxillary: "Rear Delt",
-        requires: "Dumbbells"
+        requires: "Dumbbell"
     },
     {
         name: "Hammer Curl",
         primary: "Bicep",
         secondary: "Tricep",
         auxillary: "Medialus",
-        requires: "Dumbbells"
+        requires: "Dumbbell"
     },
 ]
 
@@ -116,15 +116,16 @@ $("#requires").on("click", () => {
 
 let searchForm = $("form.search")
 // Append Exercise Results
-const appendResults = (exercise) => {
+const appendResults = (input) => {
+    console.log(input)
     $("#results").empty();
-    for (let i = 0; i < exercise.length; i++) {
+    for (let i = 0; i < input.length; i++) {
         $("#results").append(`<tr>
-                    <td scope="col">${exercise[i].name}</td>
-                    <td scope="col">${exercise[i].primary}</td>
-                    <td scope="col">${exercise[i].secondary}</td>
-                    <td scope="col">${exercise[i].auxillary}</td>
-                    <td scope="col">${exercise[i].requires}</td>
+                    <td scope="col">${input[i].name}</td>
+                    <td scope="col">${input[i].primary}</td>
+                    <td scope="col">${input[i].secondary}</td>
+                    <td scope="col">${input[i].auxillary}</td>
+                    <td scope="col">${input[i].requires}</td>
                     </tr>`);
     }
 }
@@ -138,20 +139,19 @@ searchForm.on("submit", function (event) {
     if (muscle === "Any" && secondaryMuscle === "Any" && equipReq === "Any") {
         location.reload();
     };
-    if (secondaryMuscle === "Any" && equipReq === "Any") {
-        const filterArr = exercises.filter(x => x.primary === muscle)
-        appendResults(filterArr)
+    if (muscle != "Any" && secondaryMuscle === "Any" && equipReq === "Any") {
+        appendResults(exercises.filter(x => x.primary === muscle))
     };
-    if (secondaryMuscle != "Any" && equipReq === "Any") {
-        const filterArr = exercises.filter(x => x.primary === muscle && x.secondary === secondaryMuscle)
-        appendResults(filterArr)
+    if (muscle === "Any" && secondaryMuscle === "Any" && equipReq != "Any") {
+        appendResults(exercises.filter(x => x.requires === equipReq))
+    };
+    if (muscle != "Any" && secondaryMuscle === "Any" && equipReq != "Any") {
+        appendResults(exercises.filter(x => x.primary === muscle && x.requires === equipReq))
     }
-    if (secondaryMuscle === "Any" && equipReq != "Any") {
-        const filterArr = exercises.filter(x => x.primary === muscle && x.requires === equipReq)
-        appendResults(filterArr)
+    if (muscle != "Any" && secondaryMuscle != "Any" && equipReq === "Any") {
+        appendResults(exercises.filter(x => x.primary === muscle && x.secondary === secondaryMuscle))
     }
-    if (secondaryMuscle != "Any" && equipReq != "Any") {
-        const filterArr = exercises.filter(x => x.primary === muscle && x.secondary === secondaryMuscle && x.requires === equipReq)
-        appendResults(filterArr)
+    if (muscle != "Any" && secondaryMuscle != "Any" && equipReq != "Any") {
+        appendResults(exercises.filter(x => x.primary === muscle && x.secondary === secondaryMuscle && x.requires === equipReq))
     }
 });
