@@ -20,8 +20,85 @@
     <title>Sorting a Table</title>
 </head>
 
-<body>
-    <section class="container">
+<body class="bg">
+    <section class="container" id="database">
+        <h1 class="display-4">Exercise Database</h1>
+        <h2 class="lead">Search our extensive database for exercises based on your preferences.</h2>
+        <div class="row padtop">
+            <div class="col-lg-3 bg-form shadow">
+                <form class="search">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Primary muscle group:</label>
+                        <select class="form-control" id="muscle">
+                            <option>Any</option>
+                            <option>Chest</option>
+                            <option>Back</option>
+                            <option>Quadricep</option>
+                            <option>Ham</option>
+                            <option>Core</option>
+                            <option>Bicep</option>
+                            <option>Tricep</option>
+                            <option>Calves</option>
+                            <option>Front Delt</option>
+                            <option>Side Delt</option>
+                            <option>Rear Delt</option>
+                            <option>Trap</option>
+                            <option>Glute</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Secondary muscle group:</label>
+                        <select class="form-control" id="secondaryMuscle">
+                            <option>Any</option>
+                            <option>Chest</option>
+                            <option>Back</option>
+                            <option>Quad</option>
+                            <option>Ham</option>
+                            <option>Core</option>
+                            <option>Bicep</option>
+                            <option>Tricep</option>
+                            <option>Calves</option>
+                            <option>Front Delt</option>
+                            <option>Side Delt</option>
+                            <option>Rear Delt</option>
+                            <option>Trap</option>
+                            <option>Glute</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Requires:</label>
+                        <select class="form-control" id="equipReq">
+                            <option>Any</option>
+                            <option>Dumbbell</option>
+                            <option>Barbell</option>
+                            <option>Machine</option>
+                            <option>None</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-lg btn-warning">Submit</button>
+                </form>
+            </div>
+
+            <div class="col-lg-9">
+                <table class="table shadow">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" id="exercise">Exercise</th>
+                            <th scope="col" id="primary">Primary</th>
+                            <th scope="col" id="secondary">Secondary</th>
+                            <th scope="col" id="auxillary">Auxillary</th>
+                            <th scope="col" id="requires">Requires</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-form" id="results">
+                      <!-- Exercise Data Appears Here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="container">
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -34,7 +111,7 @@
             <tbody id="employees">
             </tbody>
         </table>
-    </section>
+    </section> -->
 </body>
 
 </html>

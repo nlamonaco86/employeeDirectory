@@ -1,34 +1,60 @@
-//array of employees
-const employees = [
+//array of exercises
+const exercises = [
     {
-        id: 1,
-        first: "Mark",
-        last: "Otto",
-        position: "@mdo"
+        name: "Bench Press",
+        primary: "Chest",
+        secondary: "Tricep",
+        auxillary: "Front Delt",
+        requires: "Barbell"
     },
     {
-        id: 2,
-        first: "Jacob",
-        last: "Thornton",
-        position: "@fat"
+        name: "Squat",
+        primary: "Quadricep",
+        secondary: "Hamstring",
+        auxillary: "Core",
+        requires: "Barbell"
     },
     {
-        id: 3,
-        first: "Larry",
-        last: "Zenith",
-        position: "@twitter"
-    }]
+        name: "Deadlift",
+        primary: "Hamstring",
+        secondary: "Trap",
+        auxillary: "Core",
+        requires: "Barbell"
+    },
+    {
+        name: "Lat Pulldown",
+        primary: "Back",
+        secondary: "Bicep",
+        auxillary: "Rear Delt",
+        requires: "Machine"
+    },
+    {
+        name: "Arnold Press",
+        primary: "Front Delt",
+        secondary: "Tricep",
+        auxillary: "Rear Delt",
+        requires: "Dumbbells"
+    },
+    {
+        name: "Hammer Curl",
+        primary: "Bicep",
+        secondary: "Tricep",
+        auxillary: "Medialus",
+        requires: "Dumbbells"
+    },
+]
 
 // function to render the table on page load
 const renderTable = (array) => {
-    $("#employees").empty();
+    $("#results").empty();
     for (let i = 0; i < array.length; i++) {
-        $("#employees").append(
+        $("#results").append(
             `<tr>
-            <td scope="col">${array[i].id}</td>
-            <td scope="col">${array[i].first}</td>
-            <td scope="col">${array[i].last}</td>
-            <td scope="col">${array[i].position}</td>
+            <td scope="col">${array[i].name}</td>
+            <td scope="col">${array[i].primary}</td>
+            <td scope="col">${array[i].secondary}</td>
+            <td scope="col">${array[i].auxillary}</td>
+            <td scope="col">${array[i].requires}</td>
             </tr>`)
     }
 }
@@ -51,33 +77,81 @@ const sortFunction = (criteria, type = 'asc') => {
   }
 
 //populate the table on page load
-renderTable(employees);
+renderTable(exercises);
 
 var val = 0;
 // sort table columns in ascending or descending order, like a "switch"
 const sortBy = (type) => {
     if (val < 1) {
         val++;
-        renderTable(employees.sort(sortFunction(type, 'asc')));
+        renderTable(exercises.sort(sortFunction(type, 'asc')));
     } else if (val = 1) {
         val = 0;
-        renderTable(employees.sort(sortFunction(type, 'desc')));
+        renderTable(exercises.sort(sortFunction(type, 'desc')));
     }
 }
 
-// Sort table by criteria
-$("#firstname").on("click", (event) => {
-   sortBy("first");
+// Sort table column by criteria
+$("#exercise").on("click", () => {
+   sortBy("name");
 });
 
-$("#lastname").on("click", () => {
-    sortBy("last");
+$("#primary").on("click", () => {
+    sortBy("primary");
 });
 
-$("#id").on("click", () => {
-    sortBy("id");
+$("#secondary").on("click", () => {
+    sortBy("secondary");
 });
 
-$("#position").on("click", () => {
-    sortBy("position");
+$("#auxillary").on("click", () => {
+    sortBy("auxillary");
+});
+
+$("#requires").on("click", () => {
+    sortBy("requires");
+});
+
+// Filter exercise data by criteria
+
+let searchForm = $("form.search")
+// Append Exercise Results
+const appendResults = (exercise) => {
+    $("#results").empty();
+    for (let i = 0; i < exercise.length; i++) {
+        $("#results").append(`<tr>
+                    <td scope="col">${exercise[i].name}</td>
+                    <td scope="col">${exercise[i].primary}</td>
+                    <td scope="col">${exercise[i].secondary}</td>
+                    <td scope="col">${exercise[i].auxillary}</td>
+                    <td scope="col">${exercise[i].requires}</td>
+                    </tr>`);
+    }
+}
+searchForm.on("submit", function (event) {
+    event.preventDefault();
+
+    let muscle = $("#muscle").val();
+    let secondaryMuscle = $("#secondaryMuscle").val();
+    let equipReq = $("#equipReq").val();
+
+    if (muscle === "Any" && secondaryMuscle === "Any" && equipReq === "Any") {
+        location.reload();
+    };
+    if (secondaryMuscle === "Any" && equipReq === "Any") {
+        const filterArr = exercises.filter(x => x.primary === muscle)
+        appendResults(filterArr)
+    };
+    if (secondaryMuscle != "Any" && equipReq === "Any") {
+        const filterArr = exercises.filter(x => x.primary === muscle && x.secondary === secondaryMuscle)
+        appendResults(filterArr)
+    }
+    if (secondaryMuscle === "Any" && equipReq != "Any") {
+        const filterArr = exercises.filter(x => x.primary === muscle && x.requires === equipReq)
+        appendResults(filterArr)
+    }
+    if (secondaryMuscle != "Any" && equipReq != "Any") {
+        const filterArr = exercises.filter(x => x.primary === muscle && x.secondary === secondaryMuscle && x.requires === equipReq)
+        appendResults(filterArr)
+    }
 });
