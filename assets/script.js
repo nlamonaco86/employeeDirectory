@@ -1,3 +1,4 @@
+//array of employees
 const employees = [
     {
         id: 1,
@@ -18,20 +19,42 @@ const employees = [
         position: "@twitter"
     }]
 
-const renderTable = () => {
-    for (let i = 0; i < employees.length; i++) {
-        document.getElementById("employees").insertAdjacentHTML('beforebegin',
+// function to render the table on page load
+const renderTable = (array) => {
+    $("#employees").empty();
+    for (let i = 0; i < array.length; i++) {
+        $("#employees").append(
             `<tr>
-            <td scope="col">${employees[i].id}</td>
-            <td scope="col">${employees[i].first}</td>
-            <td scope="col">${employees[i].last}</td>
-            <td scope="col">${employees[i].position}</td>
+            <td scope="col">${array[i].id}</td>
+            <td scope="col">${array[i].first}</td>
+            <td scope="col">${array[i].last}</td>
+            <td scope="col">${array[i].position}</td>
             </tr>`)
     }
 }
 
-document.getElementById("firstname").addEventListener("click", () => {
-    console.log("click");
+// Sort table by first name 
+$("#firstname").on("click", () => {
+    sortFunction(employees);
 });
 
-renderTable();
+const sortFunction = (input) => {
+
+let result = input.sort(function(a, b) {
+  let itemA = a.first.toUpperCase(); 
+  let itemB = b.first.toUpperCase();
+  if (itemA < itemB) {
+    return -1;
+  }
+  if (itemA > itemB) {
+    return 1;
+  }
+  return 0;
+});
+
+renderTable(result);
+
+};
+
+//populate the table on page load
+renderTable(employees);
