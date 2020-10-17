@@ -15,7 +15,7 @@ const employees = [
     {
         id: 3,
         first: "Larry",
-        last: "the Bird",
+        last: "Zenith",
         position: "@twitter"
     }]
 
@@ -33,28 +33,39 @@ const renderTable = (array) => {
     }
 }
 
-// Sort table by first name 
-$("#firstname").on("click", () => {
-    sortFunction(employees);
-});
-
-const sortFunction = (input) => {
-
-let result = input.sort(function(a, b) {
-  let itemA = a.first.toUpperCase(); 
-  let itemB = b.first.toUpperCase();
-  if (itemA < itemB) {
-    return -1;
+// Sort through the array based on dynamic criteria
+const sortFunction = (criteria, type = 'asc') => {
+    return function innerSort(a, b) {
+      const varA = a[criteria];
+      const varB = b[criteria];
+  
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return (
+        (type === 'desc') ? (comparison * -1) : comparison 
+    )};
   }
-  if (itemA > itemB) {
-    return 1;
-  }
-  return 0;
-});
-
-renderTable(result);
-
-};
 
 //populate the table on page load
 renderTable(employees);
+
+// Sort table by criteria
+$("#firstname").on("click", () => {
+    renderTable(employees.sort(sortFunction('first', 'asc')));
+});
+
+$("#lastname").on("click", () => {
+    renderTable(employees.sort(sortFunction('last', 'asc')));
+});
+
+$("#id").on("click", () => {
+    renderTable(employees.sort(sortFunction('id', 'asc')));
+});
+
+$("#position").on("click", () => {
+    renderTable(employees.sort(sortFunction('position', 'asc')));
+});
